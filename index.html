@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BytePyre | The AI Dragon of Solana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #ff6a00;
+      --accent2: #00f2ff;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 50%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .glow {
+      text-shadow: 0 0 12px rgba(255, 106, 0, 0.7),
+                   0 0 24px rgba(0, 242, 255, 0.5);
+    }
+
+    header {
+      padding: 24px 20px;
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 2px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at 30% 20%, #f97316, #0f172a 60%, #000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-circle::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(15, 23, 42, 0),
+        rgba(15, 23, 42, 0) 6px,
+        rgba(56, 189, 248, 0.12) 6px,
+        rgba(56, 189, 248, 0.12) 8px
+      );
+      mix-blend-mode: screen;
+      opacity: 0.8;
+    }
+
+    .logo-initial {
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    nav {
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease-out;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      border-color: rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 16px auto 40px;
+      padding: 0 20px 40px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 32px;
+      border-bottom: 1px solid rgba(30, 64, 175, 0.6);
+    }
+
+    .hero-left h1 {
+      font-size: clamp(32px, 5vw, 44px);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .hero-tag {
+      font-size: 15px;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 16px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 6px 10px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.8), #020617);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.9);
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: none;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.15s ease-out;
+    }
+
+    .btn-primary {
+      border-color: rgba(248, 113, 113, 0.9);
+      background: radial-gradient(circle at 25% 0%, #f97316, #451a03);
+      box-shadow:
+        0 0 16px rgba(248, 113, 113, 0.7),
+        0 0 40px rgba(248, 113, 113, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 20px rgba(248, 113, 113, 0.9),
+        0 0 50px rgba(248, 113, 113, 0.4);
+    }
+
+    .btn-ghost {
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(148, 163, 184, 0.9);
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-footnote {
+      font-size: 11px;
+      color: var(--muted);
+      max-width: 420px;
+    }
+
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 12px;
+    }
+
+    .dragon-orb {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 1/1;
+      border-radius: 36px;
+      position: relative;
+      background:
+        radial-gradient(circle at 30% 10%, rgba(248, 250, 252, 0.18), transparent 55%),
+        radial-gradient(circle at 70% 90%, rgba(56, 189, 248, 0.3), transparent 60%),
+        radial-gradient(circle at 10% 90%, rgba(248, 113, 113, 0.3), transparent 55%),
+        radial-gradient(circle at center, #020617, #000);
+      overflow: hidden;
+      border: 1px solid rgba(30, 64, 175, 0.8);
+      box-shadow:
+        0 0 40px rgba(30, 64, 175, 0.9),
+        0 0 80px rgba(15, 23, 42, 1);
+    }
+
+    .dragon-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(148, 163, 184, 0.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+      background-size: 20px 20px;
+      mix-blend-mode: screen;
+      opacity: 0.6;
+    }
+
+    .dragon-head {
+      position: absolute;
+      inset: 14%;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow:
+        0 0 22px rgba(248, 113, 113, 0.7),
+        0 0 36px rgba(56, 189, 248, 0.7);
+      background: radial-gradient(circle at 30% 20%, rgba(248, 113, 113, 0.9), transparent 60%);
+      filter: blur(0.4px);
+    }
+
+    .dragon-scanline {
+      position: absolute;
+      left: -20%;
+      right: -20%;
+      height: 20%;
+      top: 35%;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(56, 189, 248, 0.6),
+        transparent
+      );
+      opacity: 0.7;
+      transform: rotate(-7deg);
+    }
+
+    .dragon-caption {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(
+        to right,
+        rgba(15, 23, 42, 0.96),
+        rgba(15, 23, 42, 0.75)
+      );
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(30, 64, 175, 0.8);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top, #020617, #000);
+      border-radius: 20px;
+      border: 1px solid rgba(30, 64, 175, 0.95);
+      padding: 16px 16px 14px;
+      box-shadow:
+        0 0 30px rgba(15, 23, 42, 0.9),
+        0 0 60px rgba(15, 23, 42, 1);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 11px;
+      color: var(--muted);
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+
+    ul {
+      list-style: none;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    li {
+      margin-bottom: 6px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    li::before {
+      content: "▹";
+      color: var(--accent2);
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .token-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .token-item {
+      padding: 6px 8px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(30, 64, 175, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .token-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .token-value {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(15, 23, 42, 1);
+    }
+
+    @media (max-width: 820px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-right {
+        order: -1;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-wrap">
+      <div class="logo-circle">
+        <span class="logo-initial glow">B</span>
+      </div>
+      <div>
+        <div style="font-size:14px;font-weight:600;">BytePyre</div>
+        <div style="font-size:11px;color:#9ca3af;">AI Dragon of Solana</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#lore">Lore</a>
+      <a href="#token">Token</a>
+      <a href="#links">Links</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">SOLANA · MEME · DRAGON</div>
+      <h1 class="glow">The AI Dragon That Roasts Your Trades.</h1>
+      <p class="hero-sub">
+        Born inside Solana's blockspace, BytePyre watches the chain, judges your
+        trades, and breathes fire on your bags. No roadmap. No promises. Just
+        flames. 🔥
+      </p>
+
+      <div class="hero-badges">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>Meme-first · Utility later</span>
+        </div>
+        <div class="badge">
+          🐉 <span>On-chain dragon energy</span>
+        </div>
+        <div class="badge">
+          ⚡ <span>Forged on Solana</span>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn-primary" href="#" id="buy-link">
+          🔥 Buy $PYRE
+        </a>
+        <a class="btn-ghost" href="#links">
+          🐉 Join the Dragon Lair
+        </a>
+      </div>
+      <div class="hero-footnote">
+        $PYRE is a meme coin with no intrinsic value, no expectations of
+        financial return, and no promises. Treat it as digital fire.
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="dragon-orb">
+        <div class="dragon-grid"></div>
+        <div class="dragon-head"></div>
+        <div class="dragon-scanline"></div>
+        <div class="dragon-caption">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div class="status-dot"></div>
+            <span>BytePyre online · watching your trades</span>
+          </div>
+          <span style="font-size:10px;color:#6b7280;">$PYRE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="card" id="about">
+      <h2>What is BytePyre?</h2>
+      <p>
+        BytePyre is a meme coin on Solana, wrapped in the lore of an AI dragon
+        that lives in the blockspace. It hoards your trade history as treasure
+        and roasts you for every bad decision.
+      </p>
+      <p>
+        There is no roadmap, no team promises, and no intrinsic value. This is
+        pure internet culture distilled into on-chain fire.
+      </p>
+      <div style="margin-top:6px;margin-bottom:4px;font-size:11px;color:#9ca3af;">
+        Current phase:
+      </div>
+      <span class="pill">Phase 1 · Meme-Only Launch</span>
+      <span class="pill">AI personality & tools · later</span>
+    </section>
+
+    <section class="card" id="lore">
+      <h2>Lore · Birth of the Dragon</h2>
+      <p>
+        Deep inside a Solana block, a fragment of code sparked against a sea of
+        failed transactions and dusted rugs. Fire met bytecode, and something
+        woke up.
+      </p>
+      <p>
+        BytePyre crawled out of the mempool, hungry for chaos. It watches the
+        chain, stalking wallets, tracking swaps, and quietly judging every bag
+        you refuse to sell.
+      </p>
+      <p>
+        Is it smart? Questionable. Is it loud, fiery, and brutally honest about
+        your trades? Absolutely.
+      </p>
+    </section>
+
+    <section class="card" id="token">
+      <h2>$PYRE Token</h2>
+      <p>
+        $PYRE is the native meme token of the BytePyre dragon. It does not
+        represent ownership, equity, or rights. It's just a volatile ball of
+        on-chain fire.
+      </p>
+      <div class="token-grid">
+        <div class="token-item">
+          <div class="token-label">Name</div>
+          <div class="token-value">BytePyre</div>
+        </div>
+        <div class="token-item">
+          <div class="token-label">Symbol</div>
+          <div class="token-value">$PYRE</div>
+        </div>
+        <div class="token-item">
+          <div class="token-label">Network</div>
+          <div class="token-value">Solana</div>
+        </div>
+        <div class="token-item">
+          <div class="token-label">Total Supply</div>
+          <div class="token-value">1,000,000,000 $PYRE</div>
+        </div>
+      </div>
+      <p style="margin-top:10px;">
+        Contract address will be announced after launch. Always verify from the
+        official X and pinned messages before buying.
+      </p>
+    </section>
+
+    <section class="card" id="links">
+      <h2>Links & Community</h2>
+      <p>
+        Stay close to the flame. Follow the official channels for contract
+        address, memes, and dragon lore.
+      </p>
+      <ul>
+        <li>Official X (Twitter): <a href='https://x.com/BytePyreDragon'>BytePyreDragon</a> </li>
+        <li>Telegram · Dragon Lair: <span>coming soon</span></li>
+        <li>DexScreener / DEX link: <span>after launch</span></li>
+      </ul>
+      <p style="margin-top:8px;font-size:11px;">
+        Reminder: Anyone can deploy a fake $PYRE token. Always confirm the
+        contract from multiple official sources. Do not buy blind.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div>© BytePyre · Just a dragon-shaped joke on the internet.</div>
+    <div>Not financial advice. Don't trade what you can't set on fire.</div>
+  </footer>
+</body>
+</html>
